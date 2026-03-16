@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products – Axion Mobility</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Copy the exact same <style> block from index.html (including all base styles) */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#fff; color:#1e1e2f; line-height:1.5; }
+    .navbar { position:fixed; top:0; width:100%; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); z-index:1000; padding:1rem 2rem; border-bottom:1px solid rgba(0,0,0,0.05); }
+    .nav-container { max-width:1280px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.5rem; color:#1e1e2f; text-decoration:none; }
+    .logo i { color:#3b82f6; font-size:2rem; }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a { text-decoration:none; color:#4a4a5e; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:#3b82f6; }
+    .mobile-toggle { display:none; font-size:1.5rem; background:none; border:none; color:#1e1e2f; cursor:pointer; }
+    @media (max-width:768px) {
+      .nav-links { display:none; flex-direction:column; position:absolute; top:70px; left:0; width:100%; background:white; padding:2rem; box-shadow:0 10px 20px rgba(0,0,0,0.1); border-radius:0 0 24px 24px; }
+      .nav-links.active { display:flex; }
+      .mobile-toggle { display:block; }
+    }
+    .container { max-width:1280px; margin:0 auto; padding:0 2rem; }
+    section { padding:6rem 0; }
+    .page-hero { padding:8rem 2rem 4rem; text-align:center; background:linear-gradient(180deg,#f9fafc 0%,#fff 100%), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMjAgMjAgMjAgMjAgMCAwIDEtMjAgMjAgMjAgMjAgMCAwIDEtMjAtMjAgMjAgMjAgMCAwIDEgMjAtMjB6IiBmaWxsPSIjZTBlN2ZmIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg=='); background-repeat:repeat; }
+    .page-hero h1 { font-size:3rem; font-weight:700; color:#0a0a1a; margin-bottom:1rem; }
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; margin-top:3rem; }
+    .product-card { background:#fff; border-radius:24px; padding:2rem; border:1px solid #edf2f7; transition:all 0.3s; text-align:center; }
+    .product-card:hover { box-shadow:0 20px 40px rgba(0,0,0,0.04); border-color:#d0d5dd; transform:translateY(-5px); }
+    .product-image { width:100%; max-width:250px; margin:0 auto 1.5rem; background:#eef2f6; border-radius:16px; padding:2rem; }
+    .product-image i { font-size:5rem; color:#3b82f6; }
+    .product-title { font-size:1.8rem; font-weight:600; margin-bottom:0.5rem; }
+    .product-category { color:#3b82f6; font-weight:500; margin-bottom:0.5rem; }
+    .product-price { font-size:2rem; font-weight:700; color:#1e1e2f; margin:1rem 0; }
+    .rating { color:#f5b342; margin-bottom:1rem; }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; background:#1e1e2f; color:white; font-weight:600; padding:0.75rem 1.5rem; border-radius:40px; text-decoration:none; transition:all 0.2s; border:none; cursor:pointer; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+    footer { border-top:1px solid #edf2f7; padding:3rem 2rem; text-align:center; color:#4a4a5e; margin-top:3rem; }
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo"><i class="fas fa-bolt"></i> Axion Mobility</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="products.html">Product</a>
+      <a href="subscription.html">Subscription</a>
+      <a href="business-collaboration.html">Business</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="mobile-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1 class="fade-in">Smart Haptic Glove</h1>
+  <p class="fade-in">AI‑powered rider safety system with directional vibration alerts.</p>
+</div>
+
+<section class="container">
+  <div class="product-grid">
+    <div class="product-card fade-in">
+      <div class="product-image"><i class="fas fa-hand-paper"></i></div>
+      <div class="product-category">Advanced Rider Assistance</div>
+      <div class="product-title">Haptic Feedback Glove</div>
+      <div class="rating">★★★★★ <span style="color:#4a4a5e;">(128 reviews)</span></div>
+      <div class="product-price">₹8,999</div>
+      <p style="margin:1rem 0; color:#4a4a5e;">AI hazard detection, 48h battery, IP68, Bluetooth 5.2</p>
+      <a href="product-detail.html" class="btn">View details</a>
+    </div>
+    <!-- You can add more products here -->
+  </div>
+</section>
+
+<footer><p>© 2026 Axion Mobility</p></footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+  const faders = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold:0.2 });
+  faders.forEach(f => observer.observe(f));
+</script>
+</body>
+</html>

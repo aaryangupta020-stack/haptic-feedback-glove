@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us – Axion Mobility</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* same base styles */
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',sans-serif; background:#fff; color:#1e1e2f; line-height:1.5; }
+    .navbar { position:fixed; top:0; width:100%; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); z-index:1000; padding:1rem 2rem; border-bottom:1px solid rgba(0,0,0,0.05); }
+    .nav-container { max-width:1280px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
+    .logo { display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.5rem; color:#1e1e2f; text-decoration:none; }
+    .logo i { color:#3b82f6; font-size:2rem; }
+    .nav-links { display:flex; gap:2rem; }
+    .nav-links a { text-decoration:none; color:#4a4a5e; font-weight:500; transition:color 0.2s; }
+    .nav-links a:hover { color:#3b82f6; }
+    .mobile-toggle { display:none; font-size:1.5rem; background:none; border:none; color:#1e1e2f; cursor:pointer; }
+    @media (max-width:768px) {
+      .nav-links { display:none; flex-direction:column; position:absolute; top:70px; left:0; width:100%; background:white; padding:2rem; box-shadow:0 10px 20px rgba(0,0,0,0.1); border-radius:0 0 24px 24px; }
+      .nav-links.active { display:flex; }
+      .mobile-toggle { display:block; }
+    }
+    .container { max-width:1280px; margin:0 auto; padding:0 2rem; }
+    section { padding:6rem 0; }
+    .page-hero { padding:8rem 2rem 4rem; text-align:center; background:linear-gradient(180deg,#f9fafc 0%,#fff 100%), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMjAgMjAgMjAgMjAgMCAwIDEtMjAgMjAgMjAgMjAgMCAwIDEtMjAtMjAgMjAgMjAgMCAwIDEgMjAtMjB6IiBmaWxsPSIjZTBlN2ZmIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg=='); background-repeat:repeat; }
+    .page-hero h1 { font-size:3rem; font-weight:700; color:#0a0a1a; margin-bottom:1rem; }
+    .contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:3rem; margin-top:3rem; }
+    .card { background:#fff; border-radius:24px; padding:2rem; border:1px solid #edf2f7; transition:all 0.3s; }
+    .card:hover { box-shadow:0 20px 40px rgba(0,0,0,0.04); border-color:#d0d5dd; transform:translateY(-5px); }
+    .form-control { width:100%; padding:1rem; border:1px solid #d0d5dd; border-radius:12px; font-family:inherit; margin-bottom:1rem; }
+    .form-control:focus { outline:none; border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,0.1); }
+    .btn { display:inline-flex; align-items:center; gap:0.5rem; background:#1e1e2f; color:white; font-weight:600; padding:0.75rem 1.5rem; border-radius:40px; text-decoration:none; border:none; cursor:pointer; transition:all 0.2s; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+    footer { border-top:1px solid #edf2f7; padding:3rem 2rem; text-align:center; color:#4a4a5e; margin-top:3rem; }
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    @media (max-width:768px) { .contact-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo"><i class="fas fa-bolt"></i> Axion Mobility</a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="products.html">Product</a>
+      <a href="subscription.html">Subscription</a>
+      <a href="business-collaboration.html">Business</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <button class="mobile-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1 class="fade-in">Contact Us</h1>
+  <p class="fade-in">We’d love to hear from you.</p>
+</div>
+
+<section class="container">
+  <div class="contact-grid">
+    <!-- Contact Info -->
+    <div class="card fade-in">
+      <h2 style="color:#3b82f6; margin-bottom:2rem;">Get in Touch</h2>
+      <p><i class="fas fa-envelope" style="width:24px; color:#3b82f6;"></i> akshadgulhaneofficial@gmail.com</p>
+      <p><i class="fas fa-phone" style="width:24px; color:#3b82f6;"></i> +91-9340382193</p>
+      <p><i class="fas fa-clock" style="width:24px; color:#3b82f6;"></i> Mon – Fri, 9 AM – 6 PM</p>
+      <div style="margin-top:2rem;">
+        <i class="fab fa-facebook fa-2x" style="margin-right:1rem; color:#3b82f6;"></i>
+        <i class="fab fa-twitter fa-2x" style="margin-right:1rem; color:#3b82f6;"></i>
+        <i class="fab fa-linkedin fa-2x" style="color:#3b82f6;"></i>
+      </div>
+    </div>
+    <!-- Contact Form -->
+    <div class="card fade-in">
+      <h2 style="color:#3b82f6; margin-bottom:2rem;">Send a Message</h2>
+      <form id="contactForm">
+        <input type="text" placeholder="Full Name" class="form-control" required>
+        <input type="email" placeholder="Email Address" class="form-control" required>
+        <textarea placeholder="Message" rows="4" class="form-control" required></textarea>
+        <button type="submit" class="btn" style="width:100%;"><i class="fas fa-paper-plane"></i> Send Message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2026 Axion Mobility. All rights reserved.</p><p style="margin-top:0.5rem;">Design. Deploy. Deliver.</p></footer>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+
+  const faders = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold:0.2 });
+  faders.forEach(f => observer.observe(f));
+
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Message sent! (Demo)');
+  });
+</script>
+</body>
+</html>
