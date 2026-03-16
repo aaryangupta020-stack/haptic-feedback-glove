@@ -2,27 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Critical viewport for proper scaling on all devices -->
+  <!-- ✅ Critical viewport for proper scaling on all devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <title>Axion Mobility – Future of Safe Driving</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ---------- RESET & BASE (with overflow protection) ---------- */
+    /* ---------- RESET & BASE ---------- */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      max-width: 100%; /* prevent any element from overflowing */
     }
 
-    html, body {
-      max-width: 100%;
-      overflow-x: hidden; /* kill horizontal scroll */
+    body {
       font-family: 'Inter', sans-serif;
       background: #fff;
       color: #1e1e2f;
       line-height: 1.5;
+      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -168,12 +166,11 @@
       }
     }
 
-    /* ---------- CONTAINER & SECTIONS (with responsive padding) ---------- */
+    /* ---------- CONTAINER & SECTIONS ---------- */
     .container {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 2rem;
-      width: 100%;
     }
 
     section {
@@ -217,7 +214,6 @@
       z-index: 2;
       max-width: 900px;
       padding: 2rem;
-      width: 100%;
     }
 
     .live-counter {
@@ -520,7 +516,7 @@
       transform: translateY(0);
     }
 
-    /* ---------- RESPONSIVE BREAKPOINTS (fine-tuned to avoid overflow) ---------- */
+    /* ---------- RESPONSIVE BREAKPOINTS ---------- */
 
     /* Tablet (max-width: 992px) */
     @media (max-width: 992px) {
@@ -542,7 +538,7 @@
       }
     }
 
-    /* Mobile (max-width: 768px) */
+    /* Mobile (max-width: 768px) – already handled above for navbar */
     @media (max-width: 768px) {
       .hero h1 {
         font-size: 2.2rem;
@@ -553,7 +549,7 @@
       }
 
       .container {
-        padding: 0 1.5rem; /* reduced padding */
+        padding: 0 1.5rem;
       }
 
       section {
@@ -628,7 +624,7 @@
 
       .solution-grid,
       .problem-stats {
-        grid-template-columns: 1fr; /* single column */
+        grid-template-columns: 1fr;
       }
 
       .team-grid {
@@ -653,10 +649,6 @@
       .mentor-card {
         padding: 1.5rem;
       }
-
-      .container {
-        padding: 0 1rem; /* even smaller padding */
-      }
     }
 
     /* Landscape orientation on mobile */
@@ -664,12 +656,6 @@
       .hero {
         min-height: 120vh;
       }
-    }
-
-    /* Ensure images and videos never overflow */
-    img, video {
-      max-width: 100%;
-      height: auto;
     }
   </style>
 </head>
@@ -698,7 +684,7 @@
   <section class="hero">
     <video class="hero-video" autoplay muted loop playsinline>
       <!-- Replace with your own video URL or local file -->
-      <source src="https://assets.mixkit.co/videos/13233/13233-720.mp4" type="video/mp4">
+      <source src="assets/videos/my-ride.mp4" type="video/mp4">
     </video>
     <div class="hero-overlay"></div>
     <div class="hero-content">
