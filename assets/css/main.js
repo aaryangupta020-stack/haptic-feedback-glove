@@ -5,8 +5,49 @@ const mainNav = document.getElementById("mainNav");
 if (menuToggle && mainNav) {
   menuToggle.addEventListener("click", () => {
     mainNav.classList.toggle("active");
-    menuToggle.querySelector("i").classList.toggle("fa-bars");
-    menuToggle.querySelector("i").classList.toggle("fa-times");
+    const icon = menuToggle.querySelector("i");
+    if (mainNav.classList.contains("active")) {
+      icon.classList.remove("fa-bars");
+      icon.classList.add("fa-times");
+      document.body.style.overflow = "hidden"; // Prevent scrolling when menu is open
+    } else {
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+      document.body.style.overflow = ""; // Restore scrolling
+    }
+  });
+
+  // Close menu when clicking on a link
+  mainNav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      mainNav.classList.remove("active");
+      const icon = menuToggle.querySelector("i");
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+      document.body.style.overflow = "";
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!mainNav.contains(e.target) && !menuToggle.contains(e.target) && mainNav.classList.contains("active")) {
+      mainNav.classList.remove("active");
+      const icon = menuToggle.querySelector("i");
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+      document.body.style.overflow = "";
+    }
+  });
+
+  // Handle window resize
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 992 && mainNav.classList.contains("active")) {
+      mainNav.classList.remove("active");
+      const icon = menuToggle.querySelector("i");
+      icon.classList.remove("fa-times");
+      icon.classList.add("fa-bars");
+      document.body.style.overflow = "";
+    }
   });
 }
 
@@ -32,13 +73,46 @@ if (collaborationForm) {
 
 // CART COUNT
 const cartCount = document.querySelector(".cart-count");
-document.querySelectorAll(".cta-button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    if (cartCount) {
-      let currentCount = Number(cartCount.textContent) || 0;
-      cartCount.textContent = currentCount + 1;
-      cartCount.classList.add("pulse");
-      setTimeout(() => cartCount.classList.remove("pulse"), 300);
+document.querySelectorAll(".cta-button, .add-to-cart").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    if (btn.classList.contains("add-to-cart") || btn.closest?.('.product-card') || btn.href?.includes('add-to-cart')) {
+      if (cartCount) {
+        let currentCount = Number(cartCount.textContent) || 0;
+        cartCount.textContent = currentCount + 1;
+        cartCount.classList.add("pulse");
+        setTimeout(() => cartCount.classList.remove("pulse"), 300);
+        
+        // Flying animation
+        const rect = btn.getBoundingClientRect();
+        const cartBtn = document.querySelector('.cart-btn');
+        
+        if (cartBtn) {
+          const flyingItem = document.createElement('div');
+          flyingItem.style.cssText = `
+            position: fixed;
+            top: ${rect.top}px;
+            left: ${rect.left}px;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+          `;
+          document.body.appendChild(flyingItem);
+          
+          setTimeout(() => {
+            const cartRect = cartBtn.getBoundingClientRect();
+            flyingItem.style.top = `${cartRect.top}px`;
+            flyingItem.style.left = `${cartRect.left}px`;
+            flyingItem.style.transform = 'scale(0.1)';
+            flyingItem.style.opacity = '0';
+          }, 10);
+          
+          setTimeout(() => flyingItem.remove(), 600);
+        }
+      }
     }
   });
 });
@@ -59,16 +133,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // NAV ACTIVE STATE
 document.addEventListener('DOMContentLoaded', () => {
-  const currentPage = window.location.pathname.split('/').pop();
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const navLinks = document.querySelectorAll('.nav-btn');
   
   navLinks.forEach(link => {
     const linkPage = link.getAttribute('href');
+    link.classList.remove('active');
     if (linkPage === currentPage || 
         (linkPage === 'index.html' && (currentPage === '' || currentPage === 'index.html'))) {
       link.classList.add('active');
-    } else {
-      link.classList.remove('active');
     }
   });
 });
@@ -83,6 +156,11 @@ document.querySelectorAll('form').forEach(form => {
       if (!field.value.trim()) {
         isValid = false;
         field.style.borderColor = '#ff4757';
+        
+        // Remove error styling after 3 seconds
+        setTimeout(() => {
+          field.style.borderColor = '';
+        }, 3000);
       } else {
         field.style.borderColor = '';
       }
@@ -108,19 +186,16 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.unobserve(img);
       }
     });
-  });
+  }, { threshold: 0.1 });
   
   images.forEach(img => imageObserver.observe(img));
 });
-
-
-// Add this to your existing main.js file (at the end)
 
 // Enhanced glass effect with mouse interaction
 document.addEventListener('DOMContentLoaded', function() {
   
   // Add glass-premium class to existing elements
-  document.querySelectorAll('.content-box, .feature-card, .product-card').forEach(el => {
+  document.querySelectorAll('.content-box, .feature-card, .product-card, .card, .glass').forEach(el => {
     el.classList.add('glass-premium', 'hover-lift');
   });
   
@@ -130,12 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   // Add glass effect to buttons
-  document.querySelectorAll('.cta-button').forEach(el => {
-    el.classList.add('glass-premium');
-  });
-  
-  // Add glass effect to stats
-  document.querySelectorAll('.stat-number').forEach(el => {
+  document.querySelectorAll('.cta-button, .btn').forEach(el => {
     el.classList.add('glass-premium');
   });
   
@@ -154,10 +224,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Add floating particles background (optional)
-  if (document.querySelector('.hero')) {
+  // Add floating particles background to hero sections
+  if (document.querySelector('.hero, .futuristic-hero')) {
     const particlesContainer = document.createElement('div');
-    particlesContainer.className = 'particles-container';
+    particlesContainer.className = 'background-particles';
     
     for (let i = 0; i < 20; i++) {
       const particle = document.createElement('div');
@@ -175,45 +245,52 @@ document.addEventListener('DOMContentLoaded', function() {
         left: ${left}%;
         animation-delay: ${delay}s;
         animation-duration: ${duration}s;
+        background: ${i % 3 === 0 ? 'var(--primary)' : i % 3 === 1 ? 'var(--secondary)' : 'var(--accent)'};
       `;
       
       particlesContainer.appendChild(particle);
     }
     
-    document.querySelector('.hero').appendChild(particlesContainer);
+    document.querySelector('.hero, .futuristic-hero').appendChild(particlesContainer);
   }
   
   // Add glow animation to important elements
   setTimeout(() => {
-    document.querySelectorAll('.cta-button, .logo').forEach(el => {
+    document.querySelectorAll('.cta-button, .logo, .btn-primary').forEach(el => {
       el.classList.add('glow-animation');
     });
   }, 1000);
 });
 
-// Add tech background effects
+// Create tech background effects
 function createTechBackground() {
   // Create tech grid
-  const grid = document.createElement('div');
-  grid.className = 'tech-grid';
-  document.body.appendChild(grid);
-  
-  // Create data streams
-  const dataStream = document.createElement('div');
-  dataStream.className = 'data-stream';
-  
-  for (let i = 0; i < 10; i++) {
-    const streamLine = document.createElement('div');
-    streamLine.className = 'stream-line';
-    streamLine.style.left = `${Math.random() * 100}%`;
-    streamLine.style.animationDelay = `${Math.random() * 10}s`;
-    dataStream.appendChild(streamLine);
+  let grid = document.querySelector('.tech-grid');
+  if (!grid) {
+    grid = document.createElement('div');
+    grid.className = 'tech-grid';
+    document.body.appendChild(grid);
   }
   
-  document.body.appendChild(dataStream);
+  // Create data streams
+  let dataStream = document.querySelector('.data-stream');
+  if (!dataStream) {
+    dataStream = document.createElement('div');
+    dataStream.className = 'data-stream';
+    
+    for (let i = 0; i < 10; i++) {
+      const streamLine = document.createElement('div');
+      streamLine.className = 'stream-line';
+      streamLine.style.left = `${Math.random() * 100}%`;
+      streamLine.style.animationDelay = `${Math.random() * 10}s`;
+      dataStream.appendChild(streamLine);
+    }
+    
+    document.body.appendChild(dataStream);
+  }
   
   // Create circuit lines in hero
-  const hero = document.querySelector('.futuristic-hero');
+  const hero = document.querySelector('.futuristic-hero, .hero');
   if (hero) {
     for (let i = 0; i < 5; i++) {
       const line = document.createElement('div');
@@ -241,12 +318,12 @@ function enhanceTechText() {
   });
   
   // Add pulse effect to important elements
-  document.querySelectorAll('.logo, .cta-button, .feature-card i').forEach(el => {
+  document.querySelectorAll('.logo, .cta-button, .feature-card i, .card i').forEach(el => {
     el.classList.add('pulse-tech');
   });
 }
 
-// Initialize when page loads
+// Initialize tech effects when page loads
 document.addEventListener('DOMContentLoaded', function() {
   // Add tech background
   createTechBackground();
@@ -255,7 +332,7 @@ document.addEventListener('DOMContentLoaded', function() {
   enhanceTechText();
   
   // Add tech glow to interactive elements
-  document.querySelectorAll('a, button, .nav-btn').forEach(el => {
+  document.querySelectorAll('a, button, .nav-btn, .btn').forEach(el => {
     el.addEventListener('mouseenter', function() {
       this.classList.add('glow-primary');
     });
@@ -265,62 +342,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Add loading animation
-  const loader = document.createElement('div');
-  loader.className = 'tech-loader';
-  loader.innerHTML = `
-    <div class="loader-ring"></div>
-    <div class="loader-dot"></div>
-  `;
-  document.body.appendChild(loader);
-  
-  // Remove loader after page load
-  setTimeout(() => {
-    loader.style.opacity = '0';
-    setTimeout(() => loader.remove(), 500);
-  }, 1000);
+  // Add loading animation (optional)
+  if (!document.querySelector('.tech-loader')) {
+    const loader = document.createElement('div');
+    loader.className = 'tech-loader';
+    loader.innerHTML = `
+      <div class="loader-ring"></div>
+      <div class="loader-dot"></div>
+    `;
+    document.body.appendChild(loader);
+    
+    // Remove loader after page load
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.remove(), 500);
+    }, 1000);
+  }
 });
 
 // ================= ENHANCED ANIMATIONS JS =================
 
 // Smooth page loader
 function initPageLoader() {
-  const loader = document.createElement('div');
-  loader.className = 'page-loader';
-  loader.innerHTML = `
-    <div class="loader-content">
-      <div class="loader-spinner"></div>
-      <p style="color: var(--primary); margin-top: 10px;">SmartGloves Pro</p>
-    </div>
-  `;
-  document.body.appendChild(loader);
-  
-  // Hide loader when page loads
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      loader.style.opacity = '0';
-      setTimeout(() => loader.remove(), 500);
-    }, 500);
-  });
+  if (!document.querySelector('.page-loader')) {
+    const loader = document.createElement('div');
+    loader.className = 'page-loader';
+    loader.innerHTML = `
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <p style="color: var(--primary); margin-top: 10px;">Axion Mobility</p>
+      </div>
+    `;
+    document.body.appendChild(loader);
+    
+    // Hide loader when page loads
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      }, 500);
+    });
+  }
 }
 
 // Scroll progress indicator
 function initScrollProgress() {
-  const progressBar = document.createElement('div');
-  progressBar.className = 'scroll-progress';
-  document.body.appendChild(progressBar);
-  
-  window.addEventListener('scroll', () => {
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    progressBar.style.width = scrolled + '%';
-  });
+  if (!document.querySelector('.scroll-progress')) {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+    
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      progressBar.style.width = scrolled + '%';
+    });
+  }
 }
 
 // Reveal on scroll animation
 function initRevealOnScroll() {
-  const revealElements = document.querySelectorAll('.reveal-on-scroll');
+  const revealElements = document.querySelectorAll('.reveal-on-scroll:not(.visible)');
   
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -336,8 +419,10 @@ function initRevealOnScroll() {
   revealElements.forEach(el => revealObserver.observe(el));
   
   // Add class to existing elements
-  document.querySelectorAll('.feature-card, .product-card, .content-box').forEach(el => {
-    el.classList.add('reveal-on-scroll');
+  document.querySelectorAll('.feature-card, .product-card, .content-box, .card, .team-card, .advisor-card').forEach(el => {
+    if (!el.classList.contains('reveal-on-scroll')) {
+      el.classList.add('reveal-on-scroll');
+    }
   });
 }
 
@@ -349,20 +434,23 @@ function initStatsCounter() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const target = entry.target;
-        const finalValue = parseInt(target.textContent);
-        const duration = 2000;
-        const increment = finalValue / (duration / 16);
-        let current = 0;
-        
-        const timer = setInterval(() => {
-          current += increment;
-          if (current >= finalValue) {
-            target.textContent = finalValue;
-            clearInterval(timer);
-          } else {
-            target.textContent = Math.floor(current);
-          }
-        }, 16);
+        const finalValue = parseInt(target.textContent.replace(/[^0-9]/g, ''));
+        if (!isNaN(finalValue) && !target.hasAttribute('data-counted')) {
+          target.setAttribute('data-counted', 'true');
+          const duration = 2000;
+          const increment = finalValue / (duration / 16);
+          let current = 0;
+          
+          const timer = setInterval(() => {
+            current += increment;
+            if (current >= finalValue) {
+              target.textContent = target.textContent.replace(/[0-9,]+/, finalValue.toLocaleString());
+              clearInterval(timer);
+            } else {
+              target.textContent = target.textContent.replace(/[0-9,]+/, Math.floor(current).toLocaleString());
+            }
+          }, 16);
+        }
       }
     });
   }, { threshold: 0.5 });
@@ -372,7 +460,7 @@ function initStatsCounter() {
 
 // Smooth hover animations
 function initSmoothHover() {
-  document.querySelectorAll('.card, .feature-card, .product-card').forEach(card => {
+  document.querySelectorAll('.card, .feature-card, .product-card, .team-card').forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -386,32 +474,34 @@ function initSmoothHover() {
 
 // Add background particles
 function initBackgroundParticles() {
-  const particlesContainer = document.createElement('div');
-  particlesContainer.className = 'background-particles';
-  
-  for (let i = 0; i < 30; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'particle';
+  if (!document.querySelector('.background-particles')) {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'background-particles';
     
-    // Random properties
-    const size = Math.random() * 6 + 2;
-    const left = Math.random() * 100;
-    const delay = Math.random() * 20;
-    const duration = Math.random() * 15 + 20;
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      // Random properties
+      const size = Math.random() * 6 + 2;
+      const left = Math.random() * 100;
+      const delay = Math.random() * 20;
+      const duration = Math.random() * 15 + 20;
+      
+      particle.style.cssText = `
+        width: ${size}px;
+        height: ${size}px;
+        left: ${left}%;
+        animation-delay: ${delay}s;
+        animation-duration: ${duration}s;
+        background: ${i % 3 === 0 ? 'var(--primary)' : i % 3 === 1 ? 'var(--secondary)' : 'var(--accent)'};
+      `;
+      
+      particlesContainer.appendChild(particle);
+    }
     
-    particle.style.cssText = `
-      width: ${size}px;
-      height: ${size}px;
-      left: ${left}%;
-      animation-delay: ${delay}s;
-      animation-duration: ${duration}s;
-      background: ${i % 3 === 0 ? 'var(--primary)' : i % 3 === 1 ? 'var(--secondary)' : 'var(--accent)'};
-    `;
-    
-    particlesContainer.appendChild(particle);
+    document.body.appendChild(particlesContainer);
   }
-  
-  document.body.appendChild(particlesContainer);
 }
 
 // Enhanced navigation hover effect
@@ -431,16 +521,24 @@ function initNavHoverEffect() {
 
 // Smooth page transitions
 function initSmoothPageTransitions() {
-  const links = document.querySelectorAll('a[href^="/"], a[href^="http"]:not([target="_blank"])');
+  const links = document.querySelectorAll('a[href^="/"], a[href^="./"], a[href^="index.html"], a[href^="products.html"], a[href^="about.html"], a[href^="contact.html"], a[href^="subscription.html"], a[href^="business-collaboration.html"], a[href^="product-detail.html"]');
   
   links.forEach(link => {
     link.addEventListener('click', (e) => {
-      if (link.getAttribute('href').startsWith('http') && !link.getAttribute('href').includes(window.location.hostname)) {
-        return; // External link
+      // Skip if it's an anchor link or external link
+      if (link.getAttribute('href').startsWith('#') || 
+          link.getAttribute('target') === '_blank' ||
+          link.getAttribute('href').startsWith('http')) {
+        return;
       }
       
       e.preventDefault();
       const href = link.getAttribute('href');
+      
+      // Don't animate if it's the same page
+      if (href === window.location.pathname.split('/').pop()) {
+        return;
+      }
       
       const transition = document.createElement('div');
       transition.className = 'page-transition';
@@ -452,7 +550,7 @@ function initSmoothPageTransitions() {
       
       setTimeout(() => {
         window.location.href = href;
-      }, 600);
+      }, 300);
     });
   });
 }
@@ -474,134 +572,20 @@ function initFormAnimations() {
 
 // Parallax effect for hero
 function initParallaxEffect() {
-  const hero = document.querySelector('.futuristic-hero');
+  const hero = document.querySelector('.futuristic-hero, .hero');
   if (!hero) return;
   
   window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
-    const rate = scrolled * -0.5;
+    const rate = scrolled * -0.3;
     
     hero.style.transform = `translateY(${rate}px)`;
   });
 }
 
-// Initialize all animations when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize enhanced animations
-  initPageLoader();
-  initScrollProgress();
-  initRevealOnScroll();
-  initStatsCounter();
-  initSmoothHover();
-  initBackgroundParticles();
-  initNavHoverEffect();
-  initSmoothPageTransitions();
-  initFormAnimations();
-  initParallaxEffect();
-  
-  // Add typing animation to hero tagline
-  const tagline = document.querySelector('.hero-tagline');
-  if (tagline) {
-    tagline.classList.add('typing-text');
-  }
-  
-  // Add smooth appear to sections
-  document.querySelectorAll('section').forEach(section => {
-    section.classList.add('smooth-appear');
-  });
-  
-  // Add hover card effect
-  document.querySelectorAll('.glass-card, .content-box').forEach(card => {
-    card.classList.add('hover-card');
-  });
-  
-  // Add ripple effect to buttons
-  document.querySelectorAll('.cta-button').forEach(btn => {
-    btn.classList.add('btn-ripple');
-  });
-  
-  // Add section entrance effect
-  document.querySelectorAll('section').forEach((section, index) => {
-    section.classList.add('section-entrance');
-    section.style.transitionDelay = `${index * 0.1}s`;
-  });
-  
-  // Intersection Observer for section entrance
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-      }
-    });
-  }, { threshold: 0.1 });
-  
-  document.querySelectorAll('.section-entrance, .smooth-appear').forEach(el => {
-    sectionObserver.observe(el);
-  });
-});
-
-// Enhanced mobile menu animation
-const menuToggle = document.getElementById('menuToggle');
-const mainNav = document.getElementById('mainNav');
-
-if (menuToggle && mainNav) {
-  menuToggle.addEventListener('click', () => {
-    mainNav.classList.toggle('active');
-    menuToggle.innerHTML = mainNav.classList.contains('active') 
-      ? '<i class="fas fa-times"></i>' 
-      : '<i class="fas fa-bars"></i>';
-    
-    // Animate menu items
-    const navItems = mainNav.querySelectorAll('.nav-btn');
-    navItems.forEach((item, index) => {
-      item.style.animationDelay = `${index * 0.1}s`;
-      item.style.animation = 'fadeInUp 0.3s ease forwards';
-    });
-  });
-}
-
-// Enhanced cart animation
-document.querySelectorAll('.add-to-cart, .cta-button').forEach(button => {
-  button.addEventListener('click', function(e) {
-    if (this.classList.contains('add-to-cart') || this.href?.includes('products')) {
-      // Create floating animation
-      const rect = this.getBoundingClientRect();
-      const cartBtn = document.querySelector('.cart-btn');
-      
-      if (cartBtn) {
-        const flyingItem = document.createElement('div');
-        flyingItem.style.cssText = `
-          position: fixed;
-          top: ${rect.top}px;
-          left: ${rect.left}px;
-          width: 20px;
-          height: 20px;
-          background: linear-gradient(135deg, var(--primary), var(--secondary));
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 10000;
-          transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        `;
-        document.body.appendChild(flyingItem);
-        
-        setTimeout(() => {
-          const cartRect = cartBtn.getBoundingClientRect();
-          flyingItem.style.top = `${cartRect.top}px`;
-          flyingItem.style.left = `${cartRect.left}px`;
-          flyingItem.style.transform = 'scale(0.1)';
-          flyingItem.style.opacity = '0';
-        }, 10);
-        
-        setTimeout(() => flyingItem.remove(), 600);
-      }
-    }
-  });
-});
-
-
 // Team card hover effects
-document.addEventListener('DOMContentLoaded', function() {
-  const teamCards = document.querySelectorAll('.team-card');
+function initTeamCardEffects() {
+  const teamCards = document.querySelectorAll('.team-card, .team-member');
   
   teamCards.forEach(card => {
     card.addEventListener('mouseenter', function() {
@@ -618,4 +602,92 @@ document.addEventListener('DOMContentLoaded', function() {
   socialIcons.forEach((icon, index) => {
     icon.style.transitionDelay = `${index * 0.1}s`;
   });
+}
+
+// Initialize all animations when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize enhanced animations
+  initPageLoader();
+  initScrollProgress();
+  initRevealOnScroll();
+  initStatsCounter();
+  initSmoothHover();
+  initBackgroundParticles();
+  initNavHoverEffect();
+  initSmoothPageTransitions();
+  initFormAnimations();
+  initParallaxEffect();
+  initTeamCardEffects();
+  
+  // Add typing animation to hero tagline
+  const tagline = document.querySelector('.hero-tagline');
+  if (tagline && !tagline.classList.contains('typing-text')) {
+    tagline.classList.add('typing-text');
+  }
+  
+  // Add smooth appear to sections
+  document.querySelectorAll('section').forEach(section => {
+    if (!section.classList.contains('smooth-appear')) {
+      section.classList.add('smooth-appear');
+    }
+  });
+  
+  // Add hover card effect
+  document.querySelectorAll('.glass-card, .content-box, .card').forEach(card => {
+    if (!card.classList.contains('hover-card')) {
+      card.classList.add('hover-card');
+    }
+  });
+  
+  // Add ripple effect to buttons
+  document.querySelectorAll('.cta-button, .btn').forEach(btn => {
+    if (!btn.classList.contains('btn-ripple')) {
+      btn.classList.add('btn-ripple');
+    }
+  });
+  
+  // Add section entrance effect
+  document.querySelectorAll('section').forEach((section, index) => {
+    if (!section.classList.contains('section-entrance')) {
+      section.classList.add('section-entrance');
+      section.style.transitionDelay = `${index * 0.1}s`;
+    }
+  });
+  
+  // Intersection Observer for section entrance
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  document.querySelectorAll('.section-entrance, .smooth-appear, .reveal-on-scroll').forEach(el => {
+    sectionObserver.observe(el);
+  });
+  
+  // Handle window resize for mobile menu
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 992) {
+      document.body.style.overflow = '';
+    }
+  });
 });
+
+// Export for module usage if needed
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    initPageLoader,
+    initScrollProgress,
+    initRevealOnScroll,
+    initStatsCounter,
+    initSmoothHover,
+    initBackgroundParticles,
+    initNavHoverEffect,
+    initSmoothPageTransitions,
+    initFormAnimations,
+    initParallaxEffect,
+    initTeamCardEffects
+  };
+}
