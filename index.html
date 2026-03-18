@@ -78,11 +78,16 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-weight: 700;
       font-size: 1.5rem;
       color: #1e1e2f;
       text-decoration: none;
+    }
+
+    .logo img {
+      height: 45px;
+      width: auto;
     }
 
     .logo i {
@@ -116,54 +121,6 @@
       cursor: pointer;
       padding: 0.5rem;
       border-radius: 8px;
-    }
-
-    /* ---------- MOBILE NAVIGATION ---------- */
-    @media (max-width: 768px) {
-      .navbar {
-        padding: 0.6rem 1rem;
-      }
-
-      .logo {
-        font-size: 1.3rem;
-      }
-
-      .logo i {
-        font-size: 1.6rem;
-      }
-
-      .nav-links {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: white;
-        padding: 1.5rem;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        border-radius: 0 0 24px 24px;
-        gap: 1rem;
-      }
-
-      .nav-links.active {
-        display: flex;
-      }
-
-      .nav-links a {
-        padding: 0.75rem;
-        font-size: 1.1rem;
-        border-radius: 12px;
-        text-align: center;
-      }
-
-      .nav-links a:hover {
-        background: #f0f4ff;
-      }
-
-      .mobile-toggle {
-        display: block;
-      }
     }
 
     /* ---------- CONTAINER & SECTIONS ---------- */
@@ -288,7 +245,7 @@
       border: 1px solid transparent;
       cursor: pointer;
       font-size: 1rem;
-      min-height: 48px; /* touch target */
+      min-height: 48px;
     }
 
     .btn-outline {
@@ -516,137 +473,154 @@
       transform: translateY(0);
     }
 
-    /* ---------- RESPONSIVE BREAKPOINTS ---------- */
-
-    /* Tablet (max-width: 992px) */
-    @media (max-width: 992px) {
-      .hero h1 {
-        font-size: 3rem;
-      }
-
-      .section-header h2 {
-        font-size: 2.2rem;
-      }
-
-      .mentor-card {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .mentor-card .avatar {
-        margin: 0 auto;
-      }
-    }
-
-    /* Mobile (max-width: 768px) – already handled above for navbar */
+    /* ========== MOBILE RESPONSIVENESS ========== */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 2.2rem;
+      .navbar {
+        padding: 0.5rem 1rem;
       }
-
-      .hero p {
-        font-size: 1rem;
+      
+      .nav-container {
+        flex-wrap: wrap;
       }
-
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .logo img {
+        height: 40px;
+      }
+      
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding: 1rem 0;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .nav-links a {
+        padding: 0.75rem;
+        text-align: center;
+        width: 100%;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
+      
+      .mobile-toggle {
+        display: block;
+      }
+      
       .container {
-        padding: 0 1.5rem;
+        padding: 0 1rem;
       }
-
+      
       section {
         padding: 4rem 0;
       }
-
+      
+      .hero h1 {
+        font-size: 2.2rem !important;
+      }
+      
+      .hero p {
+        font-size: 1rem !important;
+      }
+      
       .section-header h2 {
-        font-size: 2rem;
+        font-size: 2rem !important;
       }
-
-      .stat-number {
-        font-size: 2.5rem;
+      
+      .cta-buttons {
+        flex-direction: column;
+        gap: 0.5rem;
       }
-
-      .problem-stats {
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .problem-stats,
+      .solution-grid,
+      .team-grid {
+        grid-template-columns: 1fr !important;
         gap: 1rem;
       }
-
-      .team-grid {
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 1.5rem;
+      
+      .stat-number {
+        font-size: 2.5rem !important;
       }
-
-      .avatar {
+      
+      .team-member .avatar {
         width: 100px;
         height: 100px;
         font-size: 2.5rem;
       }
-
-      .mentor-info h3 {
-        font-size: 1.5rem;
-      }
-
-      .faa-study {
-        padding: 1.5rem;
-      }
-
+      
       .faa-study .stat {
         display: block;
         margin: 0.5rem auto;
         width: fit-content;
       }
+      
+      .mentor-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+      }
     }
 
-    /* Small mobile (max-width: 480px) */
     @media (max-width: 480px) {
+      .logo {
+        font-size: 1rem;
+      }
+      
+      .logo img {
+        height: 35px;
+      }
+      
       .hero h1 {
-        font-size: 1.8rem;
+        font-size: 1.8rem !important;
       }
-
+      
       .hero p {
-        font-size: 0.95rem;
+        font-size: 0.95rem !important;
       }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn {
-        justify-content: center;
-        width: 100%;
-      }
-
+      
       .section-header h2 {
-        font-size: 1.8rem;
+        font-size: 1.8rem !important;
       }
-
+      
       .stat-number {
-        font-size: 2rem;
+        font-size: 2rem !important;
       }
-
-      .solution-grid,
-      .problem-stats {
-        grid-template-columns: 1fr;
-      }
-
+      
       .team-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 1rem;
       }
-
-      .avatar {
+      
+      .team-member .avatar {
         width: 80px;
         height: 80px;
         font-size: 2rem;
       }
-
+      
       .team-member h4 {
         font-size: 0.9rem;
       }
-
+      
       .team-member a {
         font-size: 0.8rem;
       }
-
-      .mentor-card {
+      
+      .card {
         padding: 1.5rem;
       }
     }
@@ -666,7 +640,10 @@
   <!-- Navbar -->
   <nav class="navbar">
     <div class="nav-container">
-      <a href="index.html" class="logo"><i class="fas fa-bolt"></i> Axion Mobility</a>
+      <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+  <img src="assets/images/logo.png" style="height: 50px; width: auto;">
+  <span style="font-weight: 700; font-size: 1.5rem; color: #1e1e2f;">Axion Mobility</span>
+</a>
       <div class="nav-links" id="navLinks">
         <a href="#problem">Problem</a>
         <a href="#solution">Solution</a>
@@ -773,7 +750,7 @@
   <!-- Contact CTA -->
   <section id="contact" class="container" style="text-align:center;">
     <div class="section-header fade-in"><h2>Let’s collaborate</h2><p>Partnerships, fleet operators, research – we’re open.</p></div>
-    <div style="max-width:400px; margin:2rem auto;" class="fade-in"><p><i class="fas fa-phone-alt"></i> +91-9340382193</p><p><i class="fas fa-envelope"></i> akshadgulhaneofficial@gmail.com</p><div style="margin-top:2rem;"><a href="#" class="btn">📄 Download pitch deck</a></div></div>
+    <div style="max-width:400px; margin:2rem auto;" class="fade-in"><p><i class="fas fa-phone-alt"></i> +91-9340382193</p><p><i class="fas fa-envelope"></i> akshadgulhaneofficial@gmail.com</p><div style="margin-top:2rem;"><a href="#" class="btn"></a></div></div>
   </section>
 
   <footer><p>© 2026 Axion Mobility. All rights reserved.</p><p style="margin-top:0.5rem;">Design. Deploy. Deliver.</p></footer>
@@ -782,8 +759,28 @@
     // Mobile menu toggle
     const toggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
+    
     toggle.addEventListener('click', () => {
       navLinks.classList.toggle('active');
+      // Change icon
+      const icon = toggle.querySelector('i');
+      if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // Close menu when clicking on a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        const icon = toggle.querySelector('i');
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      });
     });
 
     // Fade-in on scroll
