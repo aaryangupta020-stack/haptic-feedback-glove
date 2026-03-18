@@ -7,22 +7,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* same base styles as above */
+    /* ---------- base styles ---------- */
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family:'Inter',sans-serif; background:#fff; color:#1e1e2f; line-height:1.5; }
     .navbar { position:fixed; top:0; width:100%; background:rgba(255,255,255,0.85); backdrop-filter:blur(12px); z-index:1000; padding:1rem 2rem; border-bottom:1px solid rgba(0,0,0,0.05); }
     .nav-container { max-width:1280px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; }
     .logo { display:flex; align-items:center; gap:10px; font-weight:700; font-size:1.5rem; color:#1e1e2f; text-decoration:none; }
+    .logo img { height:45px; width:auto; }
     .logo i { color:#3b82f6; font-size:2rem; }
     .nav-links { display:flex; gap:2rem; }
     .nav-links a { text-decoration:none; color:#4a4a5e; font-weight:500; transition:color 0.2s; }
     .nav-links a:hover { color:#3b82f6; }
     .mobile-toggle { display:none; font-size:1.5rem; background:none; border:none; color:#1e1e2f; cursor:pointer; }
-    @media (max-width:768px) {
-      .nav-links { display:none; flex-direction:column; position:absolute; top:70px; left:0; width:100%; background:white; padding:2rem; box-shadow:0 10px 20px rgba(0,0,0,0.1); border-radius:0 0 24px 24px; }
-      .nav-links.active { display:flex; }
-      .mobile-toggle { display:block; }
-    }
+    
     .container { max-width:1280px; margin:0 auto; padding:0 2rem; }
     section { padding:6rem 0; }
     .page-hero { padding:8rem 2rem 4rem; text-align:center; background:linear-gradient(180deg,#f9fafc 0%,#fff 100%), url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTBhMjAgMjAgMCAwIDEgMjAgMjAgMjAgMjAgMCAwIDEtMjAgMjAgMjAgMjAgMCAwIDEtMjAtMjAgMjAgMjAgMCAwIDEgMjAtMjB6IiBmaWxsPSIjZTBlN2ZmIiBmaWxsLW9wYWNpdHk9IjAuMiIvPjwvc3ZnPg=='); background-repeat:repeat; }
@@ -36,12 +33,58 @@
     footer { border-top:1px solid #edf2f7; padding:3rem 2rem; text-align:center; color:#4a4a5e; margin-top:3rem; }
     .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease, transform 0.6s ease; }
     .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    /* ========== MOBILE RESPONSIVENESS ========== */
+    @media (max-width: 768px) {
+      .navbar { padding:0.5rem 1rem; }
+      .nav-container { flex-wrap:wrap; }
+      .logo { font-size:1.2rem; }
+      .logo img { height:40px; }
+      .nav-links {
+        display:none;
+        width:100%;
+        flex-direction:column;
+        gap:0.5rem;
+        margin-top:1rem;
+        padding:1rem 0;
+      }
+      .nav-links.active { display:flex; }
+      .nav-links a {
+        padding:0.75rem;
+        text-align:center;
+        width:100%;
+        background:#f8f9fa;
+        border-radius:8px;
+      }
+      .mobile-toggle { display:block; }
+      .container { padding:0 1rem; }
+      section { padding:4rem 0; }
+      .page-hero { padding:6rem 1rem 3rem !important; }
+      .page-hero h1 { font-size:2.2rem !important; }
+      .page-hero p { font-size:1rem !important; }
+      .grid-4 { grid-template-columns:1fr !important; gap:1rem; }
+      .card { padding:1.5rem; }
+      .card i { font-size:1.8rem; }
+      .card h3 { font-size:1.3rem; }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size:1rem; }
+      .logo img { height:35px; }
+      .page-hero h1 { font-size:1.8rem !important; }
+      .card { padding:1.2rem; }
+      .btn { width:100%; justify-content:center; }
+      .form-control { padding:0.8rem; }
+    }
   </style>
 </head>
 <body>
 <nav class="navbar">
   <div class="nav-container">
-    <a href="index.html" class="logo"><i class="fas fa-bolt"></i> Axion Mobility</a>
+   <a href="index.html" class="logo" style="display: flex; align-items: center; gap: 15px; text-decoration: none;">
+  <img src="assets/images/logo.png" style="height: 50px; width: auto;">
+  <span style="font-weight: 700; font-size: 1.5rem; color: #1e1e2f;">Axion Mobility</span>
+</a>
     <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
       <a href="products.html">Product</a>
@@ -92,16 +135,40 @@
 <footer><p>© 2026 Axion Mobility. All rights reserved.</p><p style="margin-top:0.5rem;">Design. Deploy. Deliver.</p></footer>
 
 <script>
+  // Mobile menu toggle
   const toggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
-  toggle.addEventListener('click', () => { navLinks.classList.toggle('active'); });
+  
+  toggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    const icon = toggle.querySelector('i');
+    if (navLinks.classList.contains('active')) {
+      icon.classList.remove('fa-bars');
+      icon.classList.add('fa-times');
+    } else {
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    }
+  });
 
+  // Close menu when clicking on a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      const icon = toggle.querySelector('i');
+      icon.classList.remove('fa-times');
+      icon.classList.add('fa-bars');
+    });
+  });
+
+  // Fade-in on scroll
   const faders = document.querySelectorAll('.fade-in');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold:0.2 });
   faders.forEach(f => observer.observe(f));
 
+  // Form submission
   document.getElementById('collabForm').addEventListener('submit', (e) => {
     e.preventDefault();
     alert('Thank you! Our business team will contact you shortly. (Demo)');
